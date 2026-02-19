@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"time"
+	"production_api/internal/products"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
@@ -34,7 +35,11 @@ func (app *application) mount() http.Handler {
 		w.Write([]byte("working"))
 
 	})
-	http.ListenAndServe(app.config.addr, r)
+	
+	productHandler := products.NewHandler(nil)
+	r.Get('/products', productHandler.ListProducts)
+	
+
 	return r
 }
 
