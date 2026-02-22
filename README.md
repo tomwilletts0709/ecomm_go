@@ -12,9 +12,10 @@ Server starts on `:8080`.
 
 ## Endpoints
 
-| Method | Path         | Description |
-|--------|--------------|-------------|
-| GET    | /healthcheck | Returns "working" |
+| Method | Path         | Description        |
+|--------|--------------|--------------------|
+| GET    | /healthcheck | Returns "working"  |
+| GET    | /products    | List all products  |
 
 ## Project Structure
 
@@ -24,7 +25,11 @@ production_api/
 │   ├── main.go    # Entry point, wiring
 │   └── api.go     # Router setup, server config
 ├── internal/
-│   └── products/  # Product domain (handlers, service)
+│   ├── products/           # Product domain (handlers, service)
+│   └── adapters/
+│       └── postgresql/
+│           └── sqlc/       # sqlc generated code, queries
+├── sqlc.yaml               # sqlc config
 ├── go.mod
 └── go.sum
 ```
@@ -33,12 +38,13 @@ production_api/
 
 - **Go 1.23**
 - **Chi v5** — router + middleware (RequestID, RealIP, Logger, Recoverer, 60s timeout)
+- **sqlc** — type-safe SQL, PostgreSQL, pgx/v5
 
 ## Configuration
 
 Currently hardcoded in `main.go`:
 - Address: `:8080`
-- DB config: empty (placeholders for future use)
+- DB config: placeholders for future use
 
 ## Requirements
 
